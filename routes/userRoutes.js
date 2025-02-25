@@ -14,12 +14,12 @@ router.post('/register', async (req, res) => {
 
   try {
 
-    const userExists = await User.findOne({ $or: [{ email }, { username }] });
+    const userExists = await User.findOne({ $or: [{ email }, { username }] }); //query
     if (userExists) {
       return res.status(400).json({ message: 'Username or email already exists' });
     }
 
-    const newUser = new User({ name, username, email, password });
+    const newUser = new User({ name, username, email, password }); //query
     await newUser.save();
 
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
@@ -44,7 +44,7 @@ router.post('/login', async (req, res) => {
         return res.status(400).json({ message: 'Username and password are required' });
       }
   
-      const user = await User.findOne({ username });
+      const user = await User.findOne({ username }); //query
       if (!user) {
         return res.status(400).json({ message: 'User not found' });
       }
@@ -69,7 +69,7 @@ router.post('/login', async (req, res) => {
 // Get all users (Authentication required)
 router.get('/get', authMiddleware, async (req, res) => {
     try {
-      const users = await User.find(); 
+      const users = await User.find(); //query
       res.status(200).json(users);     
     } catch (err) {
       res.status(500).json({ message: 'Error fetching users', error: err }); 
@@ -80,7 +80,7 @@ router.get('/get', authMiddleware, async (req, res) => {
 // Get user by ID (Authentication required)
 router.get('/:id', authMiddleware, async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id); //query
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
@@ -93,7 +93,7 @@ router.get('/:id', authMiddleware, async (req, res) => {
 // Update user by ID (Authentication required)
 router.put('/:id', authMiddleware, async (req, res) => {
   try {
-    const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true }); //query
     if (!updatedUser) {
       return res.status(404).json({ message: 'User not found' });
     }
@@ -106,7 +106,7 @@ router.put('/:id', authMiddleware, async (req, res) => {
 // Delete user by ID (Authentication required)
 router.delete('/:id', authMiddleware, async (req, res) => {
   try {
-    const user = await User.findByIdAndDelete(req.params.id);
+    const user = await User.findByIdAndDelete(req.params.id); //query
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }

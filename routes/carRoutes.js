@@ -14,7 +14,7 @@ router.post('/', async (req, res) => {
       color, 
       steeringType,
       numberOfSeats
-    });
+    }); //query
 
     await newCar.save();
     res.status(201).json(newCar);
@@ -26,7 +26,7 @@ router.post('/', async (req, res) => {
 // Get all cars (no authentication required)
 router.get('/get', async (req, res) => {
   try {
-    const cars = await Car.find();
+    const cars = await Car.find(); //query
     res.status(200).json(cars);
   } catch (err) {
     res.status(500).json({ message: 'Error fetching cars', error: err });
@@ -54,7 +54,7 @@ router.post('/rental-cars-1', async (req, res) => {
       }
   
       // Fetching cars based on pricePerDay
-      const cars = await Car.find(filterCriteria).sort({ pricePerDay: 1 });
+      const cars = await Car.find(filterCriteria).sort({ pricePerDay: 1 }); //query
   
       res.status(200).json(cars);
     } catch (err) {
@@ -84,7 +84,7 @@ router.get('/rental-cars-2', async (req, res) => {
       }
   
       // Fetching cars based on pricePerDay
-      const cars = await Car.find(filterCriteria).sort({ pricePerDay: 1 });
+      const cars = await Car.find(filterCriteria).sort({ pricePerDay: 1 }); //query
   
       res.status(200).json(cars);
     } catch (err) {
@@ -97,7 +97,7 @@ router.get('/rental-cars-2', async (req, res) => {
 // Get a single car by ID (no authentication required)
 router.get('/:id', async (req, res) => {
   try {
-    const car = await Car.findById(req.params.id);
+    const car = await Car.findById(req.params.id); //query
     if (!car) {
       return res.status(404).json({ message: 'Car not found' });
     }
@@ -114,7 +114,7 @@ router.put('/:id', async (req, res) => {
       req.params.id,
       { ...req.body },
       { new: true }
-    );
+    );//query
     if (!updatedCar) {
       return res.status(404).json({ message: 'Car not found' });
     }
@@ -127,7 +127,7 @@ router.put('/:id', async (req, res) => {
 // Delete a car (no authentication required)
 router.delete('/:id', async (req, res) => {
   try {
-    const car = await Car.findByIdAndDelete(req.params.id);
+    const car = await Car.findByIdAndDelete(req.params.id); //query
     if (!car) {
       return res.status(404).json({ message: 'Car not found' });
     }
